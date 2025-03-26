@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, Flag, MoreHorizontal, MessageCircle } from "lucide-react";
+import { Heart, Flag, MoreHorizontal, MessageCircle, Send } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -22,13 +22,14 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
   const [commentText, setCommentText] = useState("");
   const [displayedComments, setDisplayedComments] = useState(comments);
   const [likedComments, setLikedComments] = useState<string[]>([]);
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleAddComment = () => {
     if (!commentText.trim()) {
       toast({
-        title: "Empty comment",
-        description: "Please write something before posting a comment.",
+        title: "Can't post empty comment",
+        description: "Write something to share your thoughts!",
         variant: "destructive"
       });
       return;
@@ -37,7 +38,9 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
     // Create a new comment
     const newComment: Comment = {
       id: `temp-${Date.now()}`,
-      content: commentText,
+      content: replyingTo 
+        ? `@${displayedComments.find(c => c.id === replyingTo)?.author.name} ${commentText}` 
+        : commentText,
       author: currentUser,
       publishedDate: "Just now",
       likes: 0,
@@ -46,12 +49,31 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
     // Add to displayed comments
     setDisplayedComments([newComment, ...displayedComments]);
     setCommentText("");
+    setReplyingTo(null);
     
     toast({
-      title: "Comment added",
-      description: "Your comment has been posted successfully!",
+      title: "Comment posted! 💬",
+      description: "Your thoughts have been shared with the community.",
       variant: "default"
     });
+  };
+
+  const handleReplyToComment = (commentId: string) => {
+    const comment = displayedComments.find(c => c.id === commentId);
+    if (comment) {
+      setReplyingTo(commentId);
+      setCommentText(`@${comment.author.name} `);
+      // Focus the textarea
+      const textarea = document.querySelector('textarea');
+      if (textarea) {
+        textarea.focus();
+      }
+    }
+  };
+
+  const handleCancelReply = () => {
+    setReplyingTo(null);
+    setCommentText("");
   };
 
   const handleLikeComment = (commentId: string) => {
@@ -82,7 +104,7 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
         )
       );
       toast({
-        title: "Comment liked",
+        title: "Comment liked! ❤️",
         description: "You've liked this comment!",
         variant: "default"
       });
@@ -91,33 +113,54 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
 
   const handleReportComment = (commentId: string) => {
     toast({
-      title: "Comment reported",
-      description: "Thank you for reporting this comment. Our team will review it.",
+      title: "Comment reported 🚩",
+      description: "Thank you for helping keep our community safe. Our team will review it.",
       variant: "default"
     });
   };
 
   return (
     <section className="pt-10 animate-fade-in">
-      <h3 className="text-xl font-bold mb-6">Comments ({displayedComments.length})</h3>
+      <h3 className="text-xl font-bold mb-6 flex items-center">
+        <MessageCircle className="mr-2 h-5 w-5" />
+        Comments ({displayedComments.length})
+      </h3>
       
       {/* Comment form */}
       <div className="mb-8 flex items-start space-x-4">
-        <Avatar className="h-10 w-10">
+        <Avatar className="h-10 w-10 ring-2 ring-primary/20">
           <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
           <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="flex-1">
+          {replyingTo && (
+            <div className="mb-2 text-sm bg-muted p-2 rounded-md flex justify-between items-center">
+              <span>Replying to comment</span>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleCancelReply}
+                className="h-7 px-2 text-xs"
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
           <Textarea
             placeholder="Share your thoughts..."
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
-            className="resize-none mb-2 focus-visible:ring-primary"
+            className="resize-none mb-2 focus-visible:ring-primary min-h-[80px]"
           />
-          <Button onClick={handleAddComment}>
-            <MessageCircle className="mr-2 h-4 w-4" />
-            Post Comment
-          </Button>
+          <div className="flex justify-between items-center">
+            <Button onClick={handleAddComment} className="gap-1">
+              <Send className="h-4 w-4" />
+              Post Comment
+            </Button>
+            <span className="text-xs text-muted-foreground">
+              Be kind and respectful
+            </span>
+          </div>
         </div>
       </div>
       
@@ -125,7 +168,7 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
       <div className="space-y-6">
         {displayedComments.map((comment) => (
           <div key={comment.id} className="flex items-start space-x-4 animate-fade-in">
-            <Avatar className="h-10 w-10">
+            <Avatar className="h-10 w-10 ring-2 ring-primary/20">
               <AvatarImage src={comment.author.avatarUrl} alt={comment.author.name} />
               <AvatarFallback>{comment.author.name.charAt(0)}</AvatarFallback>
             </Avatar>
@@ -144,6 +187,12 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem 
+                      className="cursor-pointer"
+                      onClick={() => handleReplyToComment(comment.id)}
+                    >
+                      <MessageCircle className="mr-2 h-4 w-4" /> Reply
+                    </DropdownMenuItem>
                     <DropdownMenuItem 
                       className="cursor-pointer"
                       onClick={() => handleReportComment(comment.id)}
@@ -165,7 +214,15 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
                     className="mr-1 h-4 w-4" 
                     fill={likedComments.includes(comment.id) ? "currentColor" : "none"} 
                   /> 
-                  {comment.likes}
+                  {comment.likes} {likedComments.includes(comment.id) ? "Liked" : "Like"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleReplyToComment(comment.id)}
+                  className="h-8 px-2 hover:text-foreground ml-2"
+                >
+                  <MessageCircle className="mr-1 h-4 w-4" /> Reply
                 </Button>
               </div>
             </div>

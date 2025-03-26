@@ -31,172 +31,185 @@ export interface Comment {
   likes: number;
 }
 
-// Mock users
+// Mock users (Updated owners)
 export const mockUsers: User[] = [
   {
     id: "1",
-    name: "Alex Johnson",
-    email: "alex@example.com",
-    avatarUrl: "https://i.pravatar.cc/150?img=1",
-    bio: "UX Designer and tech enthusiast. Writing about design systems and user experiences.",
+    name: "K Ashrith",
+    email: "ashrith@example.com",
+    avatarUrl: "https://i.pravatar.cc/150?img=8",
+    bio: "Entertainment enthusiast and content creator. Sharing joy through stories and visuals.",
     joinedDate: "January 2023",
   },
   {
     id: "2",
-    name: "Sarah Williams",
-    email: "sarah@example.com",
-    avatarUrl: "https://i.pravatar.cc/150?img=5",
-    bio: "Software engineer with a passion for React and modern web technologies.",
+    name: "K Jignesh",
+    email: "jignesh@example.com",
+    avatarUrl: "https://i.pravatar.cc/150?img=12",
+    bio: "Creative director with a passion for visual storytelling and digital experiences.",
     joinedDate: "March 2023",
   },
   {
     id: "3",
-    name: "Michael Chen",
-    email: "michael@example.com",
-    avatarUrl: "https://i.pravatar.cc/150?img=3",
-    bio: "Product manager and minimalist. I write about productivity and design.",
+    name: "Srikanth",
+    email: "srikanth@example.com",
+    avatarUrl: "https://i.pravatar.cc/150?img=11",
+    bio: "Content strategist and social media expert. Building connections through engaging content.",
     joinedDate: "February 2023",
   },
 ];
 
-// Mock posts
+// Mock posts (Updated with more entertainment-focused content)
 export const mockPosts: Post[] = [
   {
     id: "1",
-    title: "The Future of Minimalist Design in Digital Products",
-    excerpt: "How simplicity and clean aesthetics are shaping tomorrow's digital experiences.",
+    title: "Behind the Scenes: How We Created That Viral Video",
+    excerpt: "A look at what goes into making content that captures everyone's attention.",
     content: `
-      <p>Minimalism has always been at the heart of great design. In the digital world, it takes on new meaning as we balance complex functionality with clean, intuitive interfaces.</p>
+      <p>Creating viral content isn't just about luck - it's about understanding what resonates with people and crafting something with that perfect blend of relatability, emotion, and surprise.</p>
       
-      <p>The core principles of minimalist design include:</p>
+      <p>When we set out to create our latest video, we knew we wanted to tap into these elements:</p>
       <ul>
-        <li>Removing unnecessary elements</li>
-        <li>Focusing on typography and whitespace</li>
-        <li>Using subtle animations to guide users</li>
-        <li>Prioritizing content over decoration</li>
+        <li>An authentic story that people could connect with</li>
+        <li>Visually stunning moments that make viewers pause</li>
+        <li>A satisfying conclusion that leaves people feeling something</li>
+        <li>An element of the unexpected to keep viewers engaged</li>
       </ul>
       
-      <p>As we move forward, we're seeing a shift towards what I call "functional minimalism" - where the minimalist aesthetic serves to highlight and enhance functionality rather than simply looking clean for its own sake.</p>
+      <p>The shooting process involved over 20 hours of raw footage, captured across 5 different locations. What you don't see is the team of 12 people behind the camera, the countless technical challenges we overcame, and the moments where we almost gave up.</p>
       
-      <h2>The Role of Animation</h2>
-      <p>Subtle animations play a crucial role in modern minimalist interfaces. They provide feedback, guide attention, and add a layer of polish that elevates the entire experience.</p>
+      <h2>The Magic of Editing</h2>
+      <p>In post-production, we spent nearly 50 hours crafting the perfect cuts, timing, and transitions. The music selection alone took 3 days - finding that perfect track that complemented the emotional journey without overpowering it.</p>
       
-      <h2>Typography as a Foundation</h2>
-      <p>With fewer visual elements, typography becomes even more important. Careful font selection, sizing, and spacing can create hierarchy and guide users through content naturally.</p>
+      <h2>When It All Came Together</h2>
+      <p>The moment we knew we had something special was during our final review. The room fell silent as the video ended, followed by spontaneous applause. We felt what we hoped our audience would feel.</p>
       
-      <p>The future of minimalist design isn't about removing everything - it's about being intentional with every element we include.</p>
+      <p>Creating content that connects is about more than techniques and trends - it's about understanding human emotion and experience.</p>
     `,
     author: mockUsers[0],
     publishedDate: "May 15, 2023",
     readTime: 5,
-    imageUrl: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?q=80&w=2070",
-    likes: 248,
-    comments: 42,
-    tags: ["Design", "Minimalism", "UX"],
-    category: "Design",
+    imageUrl: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?q=80&w=2070",
+    likes: 1248,
+    comments: 142,
+    tags: ["BehindTheScenes", "ContentCreation", "Viral"],
+    category: "Entertainment",
   },
   {
     id: "2",
-    title: "Building Scalable React Applications in 2023",
-    excerpt: "Modern architecture patterns for maintainable and performant React applications.",
+    title: "5 Secrets to Creating Stunning Social Media Visuals",
+    excerpt: "Simple techniques anyone can use to elevate their social media aesthetic.",
     content: `
-      <p>As React applications grow in complexity, maintaining scalable architecture becomes increasingly important.</p>
+      <p>In the endless feed of content, visuals that stop the scroll are more valuable than ever.</p>
       
-      <p>In this article, I'll share the architecture patterns that have proven effective across dozens of enterprise React applications.</p>
+      <p>After analyzing thousands of top-performing posts across platforms, I've distilled what makes certain images capture attention while others fade into the background.</p>
       
-      <h2>Component Organization</h2>
-      <p>Organizing components by feature rather than type has significant benefits as applications scale. This approach aligns with how teams work and how features evolve.</p>
+      <h2>1. Color Psychology Matters</h2>
+      <p>The strategic use of color can trigger specific emotions and responses. Bright, contrasting colors tend to catch attention in busy feeds, while harmonious color schemes create a sense of polished professionalism.</p>
       
-      <h2>State Management Strategies</h2>
-      <p>The debate between global state libraries and React's built-in state management continues, but a hybrid approach often works best:</p>
+      <h2>2. The Rule of Thirds is Still Relevant</h2>
+      <p>Despite evolving design trends, the classic rule of thirds continues to create visually appealing compositions that feel natural to the human eye.</p>
+      
+      <h2>3. Text Overlay Strategy</h2>
+      <p>When adding text to images:</p>
       <ul>
-        <li>Local component state for UI-specific states</li>
-        <li>Context API for shared state within feature boundaries</li>
-        <li>Dedicated state management for truly global state</li>
+        <li>Keep it brief - 5 words or less performs best</li>
+        <li>Use contrasting colors or semi-transparent overlays for readability</li>
+        <li>Leave breathing room around text (negative space)</li>
+        <li>Choose fonts that match your brand personality</li>
       </ul>
       
-      <h2>Performance Optimization</h2>
-      <p>Beyond the usual memoization techniques, architectural decisions like code-splitting and lazy loading at the feature level can dramatically improve perceived performance.</p>
+      <h2>4. Consistency Creates Recognition</h2>
+      <p>Developing a consistent visual style helps followers instantly recognize your content. This doesn't mean every post looks identical, but rather that they share visual elements that tie them together.</p>
       
-      <p>Building scalable React applications is less about specific libraries and more about consistent patterns and principles.</p>
+      <h2>5. The Human Element</h2>
+      <p>Images featuring faces consistently outperform object-only images. The human brain is wired to notice and connect with other human faces.</p>
+      
+      <p>Remember that great visuals support your message - they don't replace the need for meaningful content.</p>
     `,
-    author: mockUsers[1],
+    author: mockUsers[2],
     publishedDate: "June 23, 2023",
     readTime: 8,
-    imageUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070",
-    likes: 324,
-    comments: 56,
-    tags: ["React", "JavaScript", "Architecture"],
-    category: "Development",
+    imageUrl: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=2074",
+    likes: 824,
+    comments: 96,
+    tags: ["VisualContent", "SocialMedia", "DesignTips"],
+    category: "Media",
   },
   {
     id: "3",
-    title: "The Subtle Art of Product Prioritization",
-    excerpt: "How to decide what to build next when everything seems important.",
+    title: "How We Doubled Our Engagement Rate in 30 Days",
+    excerpt: "The strategy shift that transformed our audience interactions.",
     content: `
-      <p>Product prioritization is perhaps the most challenging aspect of product management - and the most important.</p>
+      <p>When our engagement metrics started plateauing despite growing follower counts, we knew something needed to change.</p>
       
-      <p>In a world of limited resources and unlimited ideas, choosing what to build next separates successful products from those that flounder.</p>
+      <p>The solution wasn't posting more content or spending more on promotion - it was about fundamentally rethinking how we connected with our audience.</p>
       
-      <h2>Beyond RICE and MoSCoW</h2>
-      <p>While frameworks like RICE (Reach, Impact, Confidence, Effort) and MoSCoW (Must have, Should have, Could have, Won't have) provide useful structure, they're just starting points.</p>
+      <h2>The Problem with One-Way Communication</h2>
+      <p>We realized we had fallen into the trap of broadcasting rather than conversing. Our content was professional but felt distant and impersonal to our audience.</p>
       
-      <p>Effective prioritization requires deeper thinking:</p>
+      <p>Our engagement strategy shift focused on:</p>
       <ul>
-        <li>Understanding true user problems vs. requested features</li>
-        <li>Identifying strategic leverage points in your product</li>
-        <li>Balancing short-term wins with long-term investments</li>
-        <li>Building alignment across stakeholders with different priorities</li>
+        <li>Creating content that explicitly invites response</li>
+        <li>Responding to comments within 2 hours</li>
+        <li>Highlighting community members regularly</li>
+        <li>Being more transparent about our process and challenges</li>
       </ul>
       
-      <h2>Data-Informed, Not Data-Driven</h2>
-      <p>Data should inform prioritization but never drive it completely. The most transformative features often have no historical data to support them.</p>
+      <h2>The 70/30 Content Mix</h2>
+      <p>We shifted to a ratio where 70% of our content was entertaining or valuable without directly promoting anything, while 30% supported our specific goals.</p>
       
-      <h2>The Opportunity Cost Mindset</h2>
-      <p>Perhaps most importantly, prioritization is about opportunity cost. Every "yes" means saying "no" or "not yet" to many other options.</p>
+      <h2>Embracing Authenticity</h2>
+      <p>Perhaps most importantly, we stopped trying to appear perfect. We shared bloopers, mistakes, and behind-the-scenes moments that humanized our brand.</p>
       
-      <p>Embracing this reality - and communicating it transparently - builds trust even when stakeholders don't get their preferred features immediately.</p>
+      <p>The results were almost immediate - comment counts tripled in the first week, and within a month, our average engagement rate had doubled from 2.1% to 4.3%.</p>
     `,
-    author: mockUsers[2],
+    author: mockUsers[1],
     publishedDate: "July 5, 2023",
     readTime: 6,
-    imageUrl: "https://images.unsplash.com/photo-1455849318743-b2233052fcff?q=80&w=2069",
-    likes: 182,
-    comments: 28,
-    tags: ["Product Management", "Strategy", "Decision Making"],
-    category: "Product",
+    imageUrl: "https://images.unsplash.com/photo-1574937319871-11e95ade9053?q=80&w=1964",
+    likes: 582,
+    comments: 128,
+    tags: ["Engagement", "SocialStrategy", "ContentCreation"],
+    category: "Strategy",
   },
   {
     id: "4",
-    title: "Typography Fundamentals Every Designer Should Master",
-    excerpt: "Essential principles for creating readable, beautiful text in digital products.",
+    title: "Creating Content That Connects: Emotional Storytelling",
+    excerpt: "How to craft stories that resonate deeply with your audience.",
     content: `
-      <p>Typography forms the foundation of digital design, yet it's often overlooked in favor of more flashy elements.</p>
+      <p>In a digital landscape overflowing with content, the pieces that truly connect share one critical element - they tell stories that evoke emotion.</p>
       
-      <p>Mastering these typography fundamentals will instantly elevate your designs:</p>
+      <p>The most powerful content doesn't just entertain or inform - it makes people feel something.</p>
       
-      <h2>Hierarchy Through Contrast</h2>
-      <p>Creating clear hierarchy is about meaningful contrast - not just in size, but in weight, spacing, and sometimes color. Each level should be clearly distinguishable at a glance.</p>
+      <h2>The Science of Emotional Connection</h2>
+      <p>Neurologically, emotional responses increase memory formation and retention. Content that triggers emotion is simply more memorable than neutral information.</p>
       
-      <h2>Readability vs. Legibility</h2>
-      <p>Legibility refers to how easily individual characters can be distinguished; readability is about the comfort of reading entire text blocks. Both matter, but in different contexts.</p>
+      <h2>The Emotional Spectrum</h2>
+      <p>While negative emotions like outrage often drive viral sharing, positive emotions like awe, amusement, and inspiration lead to deeper, more meaningful engagement and brand loyalty.</p>
       
-      <h2>The Magic of Line Height</h2>
-      <p>Proper line height (leading) creates comfortable reading rhythm. For body text, aim for line height that's 1.5-1.6 times your font size.</p>
+      <h2>Authenticity as the Foundation</h2>
+      <p>Attempting to manufacture emotion without authentic foundation creates disconnection. The most powerful stories come from truth, even when creatively presented.</p>
       
-      <h2>Responsive Typography</h2>
-      <p>Text should adapt not just to screen size but to reading distance. Mobile devices are held closer, requiring different typography treatment beyond simple scaling.</p>
+      <h2>Structure That Resonates</h2>
+      <p>Effective emotional storytelling follows patterns that have worked for centuries:</p>
+      <ul>
+        <li>Establish a relatable character or situation</li>
+        <li>Present a conflict or challenge</li>
+        <li>Take the audience on a journey with meaningful stakes</li>
+        <li>Deliver a resolution that feels both satisfying and authentic</li>
+      </ul>
       
-      <p>Typography isn't just about making text look good - it's about serving readers and communicating with clarity.</p>
+      <p>When you create from a place of genuine emotion and human understanding, you don't just capture attention - you create connection.</p>
     `,
     author: mockUsers[0],
     publishedDate: "August 12, 2023",
     readTime: 5,
-    imageUrl: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=2069",
-    likes: 156,
-    comments: 22,
-    tags: ["Typography", "Design", "UX"],
-    category: "Design",
+    imageUrl: "https://images.unsplash.com/photo-1513759565286-20e9c5fad06b?q=80&w=2070",
+    likes: 756,
+    comments: 112,
+    tags: ["Storytelling", "ContentStrategy", "Engagement"],
+    category: "Entertainment",
   },
 ];
 
@@ -205,42 +218,42 @@ export const mockComments: Record<string, Comment[]> = {
   "1": [
     {
       id: "c1",
-      content: "Great article! I've been thinking about this a lot lately in my own design work.",
+      content: "This is exactly what I needed to read! I've been struggling with my content strategy lately. The behind-the-scenes insights are so valuable!",
       author: mockUsers[1],
       publishedDate: "May 16, 2023",
-      likes: 5,
+      likes: 25,
     },
     {
       id: "c2",
-      content: "I agree with most points, but I think there's still room for more decorative elements when they serve a purpose.",
+      content: "I'd love to see more examples of the early drafts vs final product. It's encouraging to know that even the pros go through multiple iterations.",
       author: mockUsers[2],
       publishedDate: "May 17, 2023",
-      likes: 3,
+      likes: 18,
     },
   ],
   "2": [
     {
       id: "c3",
-      content: "This helped me rethink how I'm structuring my current project. Thanks for sharing!",
+      content: "The color psychology point is so true! I changed my palette last month and immediately saw better engagement. Going to try these other tips too!",
       author: mockUsers[0],
       publishedDate: "June 24, 2023",
-      likes: 8,
+      likes: 32,
     },
   ],
   "3": [
     {
       id: "c4",
-      content: "The opportunity cost mindset has been game-changing for our team. Wish I'd learned this earlier in my career.",
+      content: "We implemented the 70/30 mix you mentioned and it's working brilliantly! Our audience actually looks forward to our promotional content now.",
       author: mockUsers[1],
       publishedDate: "July 6, 2023",
-      likes: 4,
+      likes: 41,
     },
     {
       id: "c5",
-      content: "Do you have any suggestions for getting stakeholders to understand opportunity cost when they're pushing for their features?",
+      content: "How do you measure the quality of engagement beyond just the numbers? I find we get lots of comments but they're often just emojis or one word.",
       author: mockUsers[0],
       publishedDate: "July 7, 2023",
-      likes: 2,
+      likes: 15,
     },
   ],
 };

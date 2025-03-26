@@ -30,8 +30,8 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
     
     if (!isLiked) {
       toast({
-        title: "Liked!",
-        description: `You've liked "${title.substring(0, 30)}${title.length > 30 ? '...' : ''}"`,
+        title: "You liked this post! 🔥",
+        description: `You and ${likesCount} others like this content`,
         variant: "default"
       });
     }
@@ -44,10 +44,10 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
     setIsBookmarked(!isBookmarked);
     
     toast({
-      title: isBookmarked ? "Removed from bookmarks" : "Bookmarked!",
+      title: isBookmarked ? "Removed from collection" : "Saved to collection! 📌",
       description: isBookmarked 
-        ? "This post has been removed from your bookmarks." 
-        : "This post has been saved to your bookmarks.",
+        ? "This post has been removed from your saved items." 
+        : "This post has been added to your collection.",
       variant: "default"
     });
   };
@@ -55,14 +55,42 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
   const handleComment = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // We just need to navigate to the post page
     window.location.href = `/post/${id}#comments`;
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        text: excerpt,
+        url: window.location.origin + `/post/${id}`
+      }).then(() => {
+        toast({
+          title: "Shared successfully! 🚀",
+          description: "Thanks for spreading the word!",
+          variant: "default"
+        });
+      }).catch(err => {
+        console.error("Error sharing:", err);
+      });
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      navigator.clipboard.writeText(window.location.origin + `/post/${id}`);
+      toast({
+        title: "Link copied! 📋",
+        description: "Share link copied to clipboard",
+        variant: "default"
+      });
+    }
   };
 
   return (
     <article 
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-xl transition-all duration-300",
+        "group relative flex flex-col overflow-hidden rounded-xl transition-all duration-300 border border-border",
         featured ? "md:flex-row" : "h-full",
         className
       )}
@@ -71,7 +99,7 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
         to={`/post/${id}`} 
         className={cn(
           "relative overflow-hidden",
-          featured ? "md:w-1/2" : "aspect-[16/9]"
+          featured ? "md:w-1/2" : "aspect-[4/5]" // More Instagram-like aspect ratio
         )}
       >
         <img 
@@ -79,7 +107,19 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
           alt={title} 
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+        
+        {/* Instagram-style hover action layer */}
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-6">
+          <div className="flex flex-col items-center text-white">
+            <Heart className="h-8 w-8 mb-1" fill={isLiked ? "white" : "none"} />
+            <span className="text-sm font-semibold">{likesCount}</span>
+          </div>
+          <div className="flex flex-col items-center text-white">
+            <MessageCircle className="h-8 w-8 mb-1" />
+            <span className="text-sm font-semibold">{comments}</span>
+          </div>
+        </div>
       </Link>
       
       <div className={cn(
@@ -94,7 +134,7 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
             >
               {category}
             </Link>
-            <span className="text-xs text-muted-foreground">{readTime} min read</span>
+            <span className="text-xs text-muted-foreground">{readTime} min</span>
           </div>
           
           <Link to={`/post/${id}`}>
@@ -125,47 +165,58 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
           )}
         </div>
         
-        <div className="mt-6 pt-4 border-t flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Avatar className="h-7 w-7">
-              <AvatarImage src={author.avatarUrl} alt={author.name} />
-              <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div className="text-sm">
-              <Link to={`/author/${author.id}`} className="font-medium hover:text-primary transition-colors">
-                {author.name}
-              </Link>
-              <p className="text-xs text-muted-foreground">{publishedDate}</p>
+        <div className="mt-6 pt-4 border-t">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <Avatar className="h-8 w-8 ring-2 ring-primary/20">
+                <AvatarImage src={author.avatarUrl} alt={author.name} />
+                <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div className="text-sm">
+                <Link to={`/author/${author.id}`} className="font-medium hover:text-primary transition-colors">
+                  {author.name}
+                </Link>
+                <p className="text-xs text-muted-foreground">{publishedDate}</p>
+              </div>
             </div>
           </div>
           
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center justify-between gap-2">
             <Button 
-              variant={isLiked ? "default" : "ghost"} 
-              size="icon" 
-              className="h-8 w-8" 
+              variant={isLiked ? "default" : "secondary"} 
+              size="sm" 
               onClick={handleLike}
+              className="flex-1"
             >
-              <Heart className="h-4 w-4" fill={isLiked ? "currentColor" : "none"} />
-              <span className="sr-only">Like</span>
+              <Heart className="h-4 w-4 mr-1" fill={isLiked ? "currentColor" : "none"} />
+              {isLiked ? "Liked" : "Like"}
+            </Button>
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              onClick={handleComment}
+              className="flex-1"
+            >
+              <MessageCircle className="h-4 w-4 mr-1" />
+              Comment
             </Button>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="h-8 w-8" 
-              onClick={handleComment}
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span className="sr-only">Comment</span>
-            </Button>
-            <Button 
-              variant={isBookmarked ? "default" : "ghost"} 
-              size="icon" 
-              className="h-8 w-8" 
+              className="h-9 w-9" 
               onClick={handleBookmark}
             >
               <Bookmark className="h-4 w-4" fill={isBookmarked ? "currentColor" : "none"} />
               <span className="sr-only">Bookmark</span>
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-9 w-9" 
+              onClick={handleShare}
+            >
+              <Share2 className="h-4 w-4" />
+              <span className="sr-only">Share</span>
             </Button>
           </div>
         </div>
