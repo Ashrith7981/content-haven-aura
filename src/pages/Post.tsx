@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Heart, MessageCircle, Bookmark, Share2, Calendar, Clock } from "lucide-react";
@@ -9,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import CommentSection from "@/components/ui/CommentSection";
 import PostCard from "@/components/ui/PostCard";
 import { mockPosts, mockComments } from "@/utils/mockData";
+import { useToast } from "@/hooks/use-toast";
 
 const Post = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,6 +18,7 @@ const Post = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [likesCount, setLikesCount] = useState(post?.likes || 0);
+  const { toast } = useToast();
 
   useEffect(() => {
     // Scroll to top when component mounts
@@ -50,10 +51,57 @@ const Post = () => {
   const handleLike = () => {
     setIsLiked(!isLiked);
     setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
+    
+    if (isLiked) {
+      toast({
+        title: "Unliked",
+        description: "You've removed your like from this post.",
+        variant: "default"
+      });
+    } else {
+      toast({
+        title: "Liked!",
+        description: "You've liked this post! Thanks for showing appreciation.",
+        variant: "default"
+      });
+    }
   };
 
   const handleBookmark = () => {
     setIsBookmarked(!isBookmarked);
+    
+    if (isBookmarked) {
+      toast({
+        title: "Removed from bookmarks",
+        description: "This post has been removed from your bookmarks.",
+        variant: "default"
+      });
+    } else {
+      toast({
+        title: "Bookmarked!",
+        description: "This post has been added to your bookmarks for later reading.",
+        variant: "default"
+      });
+    }
+  };
+
+  const handleShare = () => {
+    // In a real app, this would use the Web Share API if available
+    // For now, let's simulate copying the URL to clipboard
+    const postUrl = window.location.href;
+    navigator.clipboard.writeText(postUrl).then(() => {
+      toast({
+        title: "Link copied!",
+        description: "Post link has been copied to your clipboard.",
+        variant: "default"
+      });
+    }).catch(err => {
+      toast({
+        title: "Sharing failed",
+        description: "Couldn't copy the link. Please try again.",
+        variant: "destructive"
+      });
+    });
   };
 
   if (!post) {
@@ -142,7 +190,12 @@ const Post = () => {
                   <span className="sr-only">Bookmark</span>
                 </Button>
                 
-                <Button variant="outline" size="icon" className="rounded-full">
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-full"
+                  onClick={handleShare}
+                >
                   <Share2 className="h-4 w-4" />
                   <span className="sr-only">Share</span>
                 </Button>

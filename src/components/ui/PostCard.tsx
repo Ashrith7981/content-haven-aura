@@ -1,11 +1,12 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, MessageCircle, Bookmark, Share2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Post } from "@/utils/mockData";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface PostCardProps {
   post: Post;
@@ -15,6 +16,48 @@ interface PostCardProps {
 
 const PostCard = ({ post, featured = false, className }: PostCardProps) => {
   const { id, title, excerpt, author, publishedDate, readTime, imageUrl, likes, comments, tags, category } = post;
+  const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [likesCount, setLikesCount] = useState(likes);
+  const { toast } = useToast();
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setIsLiked(!isLiked);
+    setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
+    
+    if (!isLiked) {
+      toast({
+        title: "Liked!",
+        description: `You've liked "${title.substring(0, 30)}${title.length > 30 ? '...' : ''}"`,
+        variant: "default"
+      });
+    }
+  };
+  
+  const handleBookmark = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setIsBookmarked(!isBookmarked);
+    
+    toast({
+      title: isBookmarked ? "Removed from bookmarks" : "Bookmarked!",
+      description: isBookmarked 
+        ? "This post has been removed from your bookmarks." 
+        : "This post has been saved to your bookmarks.",
+      variant: "default"
+    });
+  };
+  
+  const handleComment = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // We just need to navigate to the post page
+    window.location.href = `/post/${id}#comments`;
+  };
 
   return (
     <article 
@@ -40,7 +83,7 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
       </Link>
       
       <div className={cn(
-        "flex flex-col justify-between p-5 bg-white",
+        "flex flex-col justify-between p-5 bg-card",
         featured ? "md:w-1/2" : ""
       )}>
         <div className="space-y-3">
@@ -97,16 +140,31 @@ const PostCard = ({ post, featured = false, className }: PostCardProps) => {
           </div>
           
           <div className="flex items-center space-x-1">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Heart className="h-4 w-4" />
+            <Button 
+              variant={isLiked ? "default" : "ghost"} 
+              size="icon" 
+              className="h-8 w-8" 
+              onClick={handleLike}
+            >
+              <Heart className="h-4 w-4" fill={isLiked ? "currentColor" : "none"} />
               <span className="sr-only">Like</span>
             </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8" 
+              onClick={handleComment}
+            >
               <MessageCircle className="h-4 w-4" />
               <span className="sr-only">Comment</span>
             </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Bookmark className="h-4 w-4" />
+            <Button 
+              variant={isBookmarked ? "default" : "ghost"} 
+              size="icon" 
+              className="h-8 w-8" 
+              onClick={handleBookmark}
+            >
+              <Bookmark className="h-4 w-4" fill={isBookmarked ? "currentColor" : "none"} />
               <span className="sr-only">Bookmark</span>
             </Button>
           </div>

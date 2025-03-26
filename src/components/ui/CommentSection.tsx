@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, Flag, MoreHorizontal } from "lucide-react";
+import { Heart, Flag, MoreHorizontal, MessageCircle } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Comment, currentUser } from "@/utils/mockData";
+import { useToast } from "@/hooks/use-toast";
 
 interface CommentSectionProps {
   comments: Comment[];
@@ -20,9 +21,18 @@ interface CommentSectionProps {
 const CommentSection = ({ comments, postId }: CommentSectionProps) => {
   const [commentText, setCommentText] = useState("");
   const [displayedComments, setDisplayedComments] = useState(comments);
+  const [likedComments, setLikedComments] = useState<string[]>([]);
+  const { toast } = useToast();
 
   const handleAddComment = () => {
-    if (!commentText.trim()) return;
+    if (!commentText.trim()) {
+      toast({
+        title: "Empty comment",
+        description: "Please write something before posting a comment.",
+        variant: "destructive"
+      });
+      return;
+    }
     
     // Create a new comment
     const newComment: Comment = {
@@ -36,16 +46,55 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
     // Add to displayed comments
     setDisplayedComments([newComment, ...displayedComments]);
     setCommentText("");
+    
+    toast({
+      title: "Comment added",
+      description: "Your comment has been posted successfully!",
+      variant: "default"
+    });
   };
 
   const handleLikeComment = (commentId: string) => {
-    setDisplayedComments(
-      displayedComments.map((comment) => 
-        comment.id === commentId 
-          ? { ...comment, likes: comment.likes + 1 } 
-          : comment
-      )
-    );
+    // Check if already liked this comment
+    if (likedComments.includes(commentId)) {
+      // Unlike comment
+      setLikedComments(likedComments.filter(id => id !== commentId));
+      setDisplayedComments(
+        displayedComments.map((comment) => 
+          comment.id === commentId 
+            ? { ...comment, likes: Math.max(0, comment.likes - 1) } 
+            : comment
+        )
+      );
+      toast({
+        title: "Like removed",
+        description: "You've removed your like from this comment.",
+        variant: "default"
+      });
+    } else {
+      // Like comment
+      setLikedComments([...likedComments, commentId]);
+      setDisplayedComments(
+        displayedComments.map((comment) => 
+          comment.id === commentId 
+            ? { ...comment, likes: comment.likes + 1 } 
+            : comment
+        )
+      );
+      toast({
+        title: "Comment liked",
+        description: "You've liked this comment!",
+        variant: "default"
+      });
+    }
+  };
+
+  const handleReportComment = (commentId: string) => {
+    toast({
+      title: "Comment reported",
+      description: "Thank you for reporting this comment. Our team will review it.",
+      variant: "default"
+    });
   };
 
   return (
@@ -65,7 +114,10 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
             onChange={(e) => setCommentText(e.target.value)}
             className="resize-none mb-2 focus-visible:ring-primary"
           />
-          <Button onClick={handleAddComment}>Post Comment</Button>
+          <Button onClick={handleAddComment}>
+            <MessageCircle className="mr-2 h-4 w-4" />
+            Post Comment
+          </Button>
         </div>
       </div>
       
@@ -92,7 +144,10 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem 
+                      className="cursor-pointer"
+                      onClick={() => handleReportComment(comment.id)}
+                    >
                       <Flag className="mr-2 h-4 w-4" /> Report
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -101,12 +156,16 @@ const CommentSection = ({ comments, postId }: CommentSectionProps) => {
               <p className="text-sm">{comment.content}</p>
               <div className="flex items-center pt-1">
                 <Button 
-                  variant="ghost" 
+                  variant={likedComments.includes(comment.id) ? "default" : "ghost"}
                   size="sm" 
                   onClick={() => handleLikeComment(comment.id)}
-                  className="h-8 px-2 text-muted-foreground hover:text-foreground"
+                  className="h-8 px-2 hover:text-foreground"
                 >
-                  <Heart className="mr-1 h-4 w-4" /> {comment.likes}
+                  <Heart 
+                    className="mr-1 h-4 w-4" 
+                    fill={likedComments.includes(comment.id) ? "currentColor" : "none"} 
+                  /> 
+                  {comment.likes}
                 </Button>
               </div>
             </div>
