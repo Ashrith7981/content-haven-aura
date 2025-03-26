@@ -31,13 +31,13 @@ export interface Comment {
   likes: number;
 }
 
-// Mock users (Updated owners)
+// Mock users (Updated with animated character avatars)
 export const mockUsers: User[] = [
   {
     id: "1",
     name: "K Ashrith",
     email: "ashrith@example.com",
-    avatarUrl: "https://i.pravatar.cc/150?img=8",
+    avatarUrl: "https://api.dicebear.com/7.x/bottts/svg?seed=Ashrith",
     bio: "Entertainment enthusiast and content creator. Sharing joy through stories and visuals.",
     joinedDate: "January 2023",
   },
@@ -45,7 +45,7 @@ export const mockUsers: User[] = [
     id: "2",
     name: "K Jignesh",
     email: "jignesh@example.com",
-    avatarUrl: "https://i.pravatar.cc/150?img=12",
+    avatarUrl: "https://api.dicebear.com/7.x/adventurer/svg?seed=Jignesh",
     bio: "Creative director with a passion for visual storytelling and digital experiences.",
     joinedDate: "March 2023",
   },
@@ -53,7 +53,7 @@ export const mockUsers: User[] = [
     id: "3",
     name: "Srikanth",
     email: "srikanth@example.com",
-    avatarUrl: "https://i.pravatar.cc/150?img=11",
+    avatarUrl: "https://api.dicebear.com/7.x/personas/svg?seed=Srikanth",
     bio: "Content strategist and social media expert. Building connections through engaging content.",
     joinedDate: "February 2023",
   },
