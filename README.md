@@ -4,11 +4,10 @@ Overview
 Content creation is at the heart of digital expression. Millions of blogs are published every day, and a well-designed blogging platform can help users create, manage, and share their content seamlessly. This project is a fully functional, scalable, and feature-rich blogging application that offers an intuitive user experience.
 
 Project Links
-GitHub Repository: Your GitHub Repo URL
 
-PowerPoint Presentation: Download Presentation
+PowerPoint Presentation: [Download Presentation](https://docs.google.com/presentation/d/1Q1rNE3ZVkuFBYrm5ikIZWnoc9ZBloJ0c/edit?usp=sharing&ouid=100343117662777328807&rtpof=true&sd=true)
 
-Demo Video: Watch Demo Video
+Demo Video: [Watch Demo Video](https://drive.google.com/file/d/1o7fckuHNGQMmS4jYIbNEgQLmHyrJz6ei/view?usp=sharing)
 
 Context & Challenge
 Context
