@@ -5,7 +5,7 @@ Content creation is at the heart of digital expression. Millions of blogs are pu
 
 Project Links
 
-PowerPoint Presentation: [Download Presentation](https://docs.google.com/presentation/d/1Q1rNE3ZVkuFBYrm5ikIZWnoc9ZBloJ0c/edit?usp=sharing&ouid=100343117662777328807&rtpof=true&sd=true)
+PowerPoint Presentation: https://docs.google.com/presentation/d/1tli21Cuf9DKO74ZagWNCZNIU6fdM5yhm/edit?usp=sharing&ouid=100343117662777328807&rtpof=true&sd=true
 
 Demo Video: [Watch Demo Video](https://drive.google.com/file/d/1o7fckuHNGQMmS4jYIbNEgQLmHyrJz6ei/view?usp=sharing)
 
